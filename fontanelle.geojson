@@ -1,1 +1,621 @@
-{"type":"FeatureCollection","features":[]}
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-11-19T15:04:06Z",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "node/473555773",
+      "properties": {
+        "@id": "node/473555773",
+        "amenity": "drinking_water",
+        "check_date": "2022-01-17",
+        "fountain": "drinking",
+        "man_made": "water_tap",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1742803,
+          40.35188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/2457599995",
+      "properties": {
+        "@id": "node/2457599995",
+        "amenity": "drinking_water",
+        "check_date": "2026-07-15",
+        "fountain": "drinking",
+        "man_made": "water_tap",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1749297,
+          40.3552939
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/3519963740",
+      "properties": {
+        "@id": "node/3519963740",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1639735,
+          40.3599766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/3566566374",
+      "properties": {
+        "@id": "node/3566566374",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2153207,
+          40.3773909
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/4038482505",
+      "properties": {
+        "@id": "node/4038482505",
+        "addr:city": "Torre Rinalda",
+        "addr:street": "Via Litoranea San Giusto",
+        "amenity": "drinking_water",
+        "name": "Punto 1 Fontanella Torre Rinalda"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1582973,
+          40.4803865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/4038482506",
+      "properties": {
+        "@id": "node/4038482506",
+        "addr:city": "Spiaggiabella",
+        "addr:street": "Via Itaca Lido",
+        "amenity": "drinking_water",
+        "name": "Punto 4 Fontanella di Via Itaca Lido"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1798877,
+          40.4657933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/4038482507",
+      "properties": {
+        "@id": "node/4038482507",
+        "addr:city": "Torre Chianca",
+        "addr:street": "Via Idume",
+        "amenity": "drinking_water",
+        "man_made": "water_tap",
+        "name": "Punto 8 Fontanella di Viale Eolo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1893485,
+          40.4675778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516218",
+      "properties": {
+        "@id": "node/5964516218",
+        "amenity": "drinking_water",
+        "name": "Punto 16 Fontanella di Giammatteo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2103404,
+          40.430684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516220",
+      "properties": {
+        "@id": "node/5964516220",
+        "amenity": "drinking_water",
+        "name": "Punto 15 Fontanella di via Miali"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2173978,
+          40.4157443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516221",
+      "properties": {
+        "@id": "node/5964516221",
+        "amenity": "drinking_water",
+        "name": "Punto 14 Fontanella di Piazza Bertacchi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2410356,
+          40.4257655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516222",
+      "properties": {
+        "@id": "node/5964516222",
+        "amenity": "drinking_water",
+        "name": "Punto 13 Fontanella del bivio di via Fiorini"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2303309,
+          40.445804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516223",
+      "properties": {
+        "@id": "node/5964516223",
+        "amenity": "drinking_water",
+        "name": "Punto 12 Fontanella Via Dei Garofani"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2170527,
+          40.4532305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516224",
+      "properties": {
+        "@id": "node/5964516224",
+        "amenity": "drinking_water",
+        "name": "Punto 11 Fontanella di via Coronelli."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2115984,
+          40.4559521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516225",
+      "properties": {
+        "@id": "node/5964516225",
+        "amenity": "drinking_water",
+        "name": "Punto 19 Fontanella di Via dei Lillà"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1934157,
+          40.4666579
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516226",
+      "properties": {
+        "@id": "node/5964516226",
+        "amenity": "drinking_water",
+        "name": "Punto 10 Fontanella di Piazza Paradiso"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2004498,
+          40.4663742
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516227",
+      "properties": {
+        "@id": "node/5964516227",
+        "amenity": "drinking_water",
+        "name": "Punto 9 Fontanella di via dell'Airone"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2054749,
+          40.4600767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516229",
+      "properties": {
+        "@id": "node/5964516229",
+        "amenity": "drinking_water",
+        "name": "Punto 7 Fontanella di Viale Eolo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1937188,
+          40.4673894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516230",
+      "properties": {
+        "@id": "node/5964516230",
+        "amenity": "drinking_water",
+        "name": "Punto 6 Fontanella di Via Zefiro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1948413,
+          40.4570971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516231",
+      "properties": {
+        "@id": "node/5964516231",
+        "amenity": "drinking_water",
+        "name": "Punto 5 Fontanella di Via del Tasso"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1836404,
+          40.4584206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516233",
+      "properties": {
+        "@id": "node/5964516233",
+        "amenity": "drinking_water",
+        "name": "Punto 3 Fontanella di via Taormina"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1765848,
+          40.4698544
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516234",
+      "properties": {
+        "@id": "node/5964516234",
+        "amenity": "drinking_water",
+        "name": "Punto 2 Fontanella di Via Santa Cesarea"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1732482,
+          40.4744861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5964516236",
+      "properties": {
+        "@id": "node/5964516236",
+        "amenity": "drinking_water",
+        "name": "Punto 18 Fontanella di via delle Violaciocche"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1896257,
+          40.4527356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9430424112",
+      "properties": {
+        "@id": "node/9430424112",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.2364658,
+          40.3708778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9453204781",
+      "properties": {
+        "@id": "node/9453204781",
+        "amenity": "drinking_water",
+        "man_made": "water_tap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1662656,
+          40.3527707
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9453285212",
+      "properties": {
+        "@id": "node/9453285212",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.161482,
+          40.3497039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9767727942",
+      "properties": {
+        "@id": "node/9767727942",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1767205,
+          40.3403233
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/12222019269",
+      "properties": {
+        "@id": "node/12222019269",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1663157,
+          40.3459838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/12703100915",
+      "properties": {
+        "@id": "node/12703100915",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1373056,
+          40.33175
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13017306271",
+      "properties": {
+        "@id": "node/13017306271",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1471503,
+          40.3447714
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13202470461",
+      "properties": {
+        "@id": "node/13202470461",
+        "access": "yes",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1770392,
+          40.3426829
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13202503427",
+      "properties": {
+        "@id": "node/13202503427",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "fee": "no",
+        "note": "Accessibile durante orari di apertura del mercatino / subject to market opening hours"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1930072,
+          40.355381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13272459101",
+      "properties": {
+        "@id": "node/13272459101",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.3046837,
+          40.3839144
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13766868860",
+      "properties": {
+        "@id": "node/13766868860",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1809713,
+          40.3655776
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13900886394",
+      "properties": {
+        "@id": "node/13900886394",
+        "access": "yes",
+        "amenity": "drinking_water",
+        "operator": "Campo C.o.n.i",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1777546,
+          40.3664818
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13900946439",
+      "properties": {
+        "@id": "node/13900946439",
+        "amenity": "drinking_water",
+        "operator": "Parco delle Cave"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.164404,
+          40.3439842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13900949354",
+      "properties": {
+        "@id": "node/13900949354",
+        "amenity": "drinking_water",
+        "operator": "Parco delle Cave"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1636479,
+          40.3445246
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13931104378",
+      "properties": {
+        "@id": "node/13931104378",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1673097,
+          40.357381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/13960013914",
+      "properties": {
+        "@id": "node/13960013914",
+        "amenity": "drinking_water"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.164051,
+          40.3510628
+        ]
+      }
+    }
+  ]
+}

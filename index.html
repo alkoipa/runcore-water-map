@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
-    :root { color-scheme: dark; --yellow:#FFF48D; --black:#111; --panel:#1b1b1b; }
+    :root { color-scheme: dark; --yellow:#FFF48D; --black:#111; }
     * { box-sizing:border-box; }
     html, body { margin:0; min-height:100%; background:var(--black); color:#fff;
       font-family:Arial,Helvetica,sans-serif; }
@@ -24,27 +24,22 @@
     .actions { display:flex; gap:9px; flex-wrap:wrap; }
     button { border:0; border-radius:3px; padding:12px 15px; background:var(--yellow);
       color:#111; font-weight:900; cursor:pointer; }
-    button.secondary { background:#292929; color:#fff; border:1px solid #555; }
-    button.active { background:#fff; color:#111; }
     button:focus-visible { outline:3px solid white; outline-offset:3px; }
     .status { flex:0 0 auto; padding:10px 22px; background:#202020; color:var(--yellow);
       font-size:11px; letter-spacing:1px; min-height:35px; }
     #map { width:100%; flex:1 1 auto; min-height:0; background:#ddd; }
-    #map.adding { cursor:crosshair; }
     footer { flex:0 0 auto; display:flex; justify-content:space-between; gap:10px;
       flex-wrap:wrap; padding:10px 22px; color:#aaa; font-size:11px; }
     footer a { color:#ddd; }
     .pin { width:30px; height:30px; display:flex; align-items:center; justify-content:center;
       border:2px solid #111; border-radius:50%; background:var(--yellow);
-      box-shadow:0 2px 8px #0008; font-size:16px; }
-    .pin.user { border-style:dashed; }
+      box-shadow:0 2px 8px #0008; }
     .pin-wrap { background:transparent; border:0; }
     .leaflet-popup-content-wrapper { border-radius:4px; }
     .popup { color:#151515; min-width:165px; line-height:1.4; }
     .popup strong { font-size:14px; }
     .popup small { display:block; margin-top:5px; color:#555; }
     .popup a { color:#111; font-weight:bold; }
-    .popup button { margin-top:8px; padding:7px 10px; font-size:11px; background:#292929; color:#fff; }
     @media(max-width:600px) {
       header { padding:14px 14px 11px; gap:12px; }
       .brand { font-size:22px; }
@@ -65,8 +60,6 @@
       </div>
       <div class="actions">
         <button id="locate" type="button">◎ DOVE SONO</button>
-        <button id="add" class="secondary" type="button">+ AGGIUNGI PUNTO</button>
-        <button id="export" class="secondary" type="button">ESPORTA</button>
       </div>
     </header>
 
@@ -86,12 +79,8 @@
   <script>
   (() => {
     const DATA_FILE = 'fontanelle.geojson';
-    const USER_KEY = 'runcore-water-user-v1';
-
     const $ = id => document.getElementById(id);
     const status = $('status');
-    const mapEl = $('map');
-    const addBtn = $('add');
 
     const map = L.map('map').setView([40.3515, 18.1750], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -100,32 +89,14 @@
     }).addTo(map);
 
     const pointsLayer = L.layerGroup().addTo(map);
-    const userLayer = L.layerGroup().addTo(map);
 
     const drop = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#1e88e5" stroke="#111" stroke-width="1.5">' +
       '<path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg>';
-    const makeIcon = isUser => L.divIcon({
+    const icon = L.divIcon({
       className: 'pin-wrap',
-      html: `<span class="pin${isUser ? ' user' : ''}" aria-hidden="true">${drop}</span>`,
+      html: `<span class="pin" aria-hidden="true">${drop}</span>`,
       iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -13]
     });
-    const iconFile = makeIcon(false);
-    const iconUser = makeIcon(true);
-
-    let filePoints = [];
-    let fileError = '';
-    let userPoints = loadUser();
-    let adding = false;
-
-    function loadUser() {
-      try {
-        const v = JSON.parse(localStorage.getItem(USER_KEY) || '[]');
-        return Array.isArray(v) ? v.filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon)) : [];
-      } catch (_) { return []; }
-    }
-    function saveUser() {
-      try { localStorage.setItem(USER_KEY, JSON.stringify(userPoints)); } catch (_) {}
-    }
 
     function escapeHtml(value) {
       return String(value).replace(/[&<>"']/g, ch => ({
@@ -133,14 +104,16 @@
       })[ch]);
     }
 
-    // Centro di una geometria GeoJSON (punto, oppure poligono/linea → centro del riquadro)
+    function formatDate(iso) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+      return m ? `${m[3]}/${m[2]}/${m[1]}` : '';
+    }
+
     function centerOf(geom) {
       if (!geom || !geom.coordinates) return null;
       if (geom.type === 'Point') return { lon: geom.coordinates[0], lat: geom.coordinates[1] };
       const flat = [];
-      (function walk(a) {
-        if (typeof a[0] === 'number') flat.push(a); else a.forEach(walk);
-      })(geom.coordinates);
+      (function walk(a) { if (typeof a[0] === 'number') flat.push(a); else a.forEach(walk); })(geom.coordinates);
       if (!flat.length) return null;
       const lons = flat.map(c => c[0]), lats = flat.map(c => c[1]);
       return { lon: (Math.min(...lons) + Math.max(...lons)) / 2,
@@ -153,124 +126,61 @@
       for (const f of feats) {
         const c = centerOf(f.geometry);
         if (!c || !Number.isFinite(c.lat) || !Number.isFinite(c.lon)) continue;
-        const p = f.properties || {};
-        out.push({ lat: c.lat, lon: c.lon, name: p.name || '', drinking: p.drinking_water || '' });
+        out.push({ lat: c.lat, lon: c.lon, p: f.properties || {} });
       }
       return out;
     }
 
-    function popupHtml(p) {
+    function popupHtml({ lat, lon, p }) {
       const name = p.name || 'Fontanella / punto acqua';
-      let info = 'Potabilità non verificata';
-      if (p.drinking === 'yes') info = 'Indicata come acqua potabile';
-      if (p.drinking === 'no') info = 'Indicata come non potabile';
-      if (p.user) info = 'Aggiunta da te su questo dispositivo';
-      const remove = p.user ? `<button type="button" class="rm" data-id="${escapeHtml(p.id)}">RIMUOVI</button>` : '';
+      const address = [p['addr:street'], p['addr:city']].filter(Boolean).join(', ');
+      let info = 'Segnata come acqua potabile su OpenStreetMap';
+      if (p.drinking_water === 'no') info = 'Indicata come non potabile';
+
+      const extra = [];
+      if (p.operator) extra.push('Gestore: ' + p.operator);
+      if (p.access === 'yes') extra.push('Accesso libero');
+      if (p.fee === 'no') extra.push('Gratuita');
+      if (p.wheelchair === 'yes') extra.push('Accessibile in sedia a rotelle');
+      const checked = formatDate(p.check_date);
+      if (checked) extra.push('Verificata il ' + checked);
+
+      const id = /^(node|way|relation)\/\d+$/.test(p['@id'] || '') ? p['@id'] : '';
+      const link = id
+        ? `https://www.openstreetmap.org/${id}`
+        : `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=18/${lat}/${lon}`;
+
       return `<div class="popup">
         <strong>${escapeHtml(name)}</strong>
+        ${address ? `<small>${escapeHtml(address)}</small>` : ''}
         <small>${escapeHtml(info)}</small>
-        <small><a href="https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=18/${p.lat}/${p.lon}"
-           target="_blank" rel="noopener">Apri su OpenStreetMap</a></small>
-        ${remove}
+        ${extra.map(t => `<small>${escapeHtml(t)}</small>`).join('')}
+        ${p.note ? `<small>${escapeHtml(p.note)}</small>` : ''}
+        <small><a href="${link}" target="_blank" rel="noopener">Apri su OpenStreetMap</a></small>
       </div>`;
     }
 
-    function render() {
-      pointsLayer.clearLayers();
-      userLayer.clearLayers();
-      for (const p of filePoints) {
-        L.marker([p.lat, p.lon], { icon: iconFile }).bindPopup(popupHtml(p)).addTo(pointsLayer);
-      }
-      for (const p of userPoints) {
-        L.marker([p.lat, p.lon], { icon: iconUser })
-          .bindPopup(popupHtml({ ...p, user: true })).addTo(userLayer);
-      }
-      updateStatus();
-    }
-
-    function updateStatus() {
-      if (adding) { status.textContent = 'TOCCA LA MAPPA NEL PUNTO DELLA FONTANELLA.'; return; }
-      const total = filePoints.length + userPoints.length;
-      const parts = [];
-      if (total) {
-        parts.push(`${total} FONTANELLE · LECCE`);
-        if (userPoints.length) parts.push(`${userPoints.length} AGGIUNTE DA TE (SOLO SU QUESTO DISPOSITIVO)`);
-      } else {
-        parts.push('NESSUNA FONTANELLA AL MOMENTO. USA + AGGIUNGI PER INSERIRNE UNA.');
-      }
-      if (fileError) parts.push(fileError);
-      status.textContent = parts.join(' · ');
-    }
-
-    async function loadFile() {
+    async function loadPoints() {
       try {
         const res = await fetch(DATA_FILE, { cache: 'no-cache' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        filePoints = parseGeoJSON(await res.json());
-        fileError = '';
+        const points = parseGeoJSON(await res.json());
+        pointsLayer.clearLayers();
+        for (const pt of points) {
+          L.marker([pt.lat, pt.lon], { icon, title: pt.p.name || 'Fontanella' })
+            .bindPopup(popupHtml(pt)).addTo(pointsLayer);
+        }
+        if (points.length) {
+          map.fitBounds(L.latLngBounds(points.map(pt => [pt.lat, pt.lon])),
+            { padding: [30, 30], maxZoom: 15 });
+          status.textContent = `${points.length} FONTANELLE · LECCE E MARINE`;
+        } else {
+          status.textContent = 'NESSUNA FONTANELLA NEL FILE.';
+        }
       } catch (err) {
-        filePoints = [];
-        fileError = `FILE ${DATA_FILE} NON LETTO (${(err.message || 'ERRORE').toUpperCase()})`;
+        status.textContent = `FILE ${DATA_FILE} NON LETTO (${(err.message || 'ERRORE').toUpperCase()}). SE APRI LA PAGINA DAL DISCO, USA UN SERVER LOCALE.`;
       }
-      render();
     }
-
-    function setAdding(on) {
-      adding = on;
-      mapEl.classList.toggle('adding', on);
-      addBtn.classList.toggle('active', on);
-      addBtn.textContent = on ? 'ANNULLA' : '+ AGGIUNGI PUNTO';
-      updateStatus();
-    }
-    addBtn.addEventListener('click', () => setAdding(!adding));
-
-    map.on('click', e => {
-      if (!adding) return;
-      const name = window.prompt('Nome o indicazione (facoltativo)', '');
-      if (name === null) { setAdding(false); return; }
-      userPoints.push({
-        id: 'u' + Date.now().toString(36),
-        lat: +e.latlng.lat.toFixed(6),
-        lon: +e.latlng.lng.toFixed(6),
-        name: name.trim()
-      });
-      saveUser();
-      setAdding(false);
-      render();
-    });
-
-    map.on('popupopen', e => {
-      const btn = e.popup.getElement().querySelector('.rm');
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        userPoints = userPoints.filter(p => p.id !== btn.dataset.id);
-        saveUser();
-        map.closePopup();
-        render();
-      });
-    });
-
-    $('export').addEventListener('click', () => {
-      const all = [...filePoints, ...userPoints];
-      if (!all.length) { status.textContent = 'NIENTE DA ESPORTARE: NESSUN PUNTO PRESENTE.'; return; }
-      const geojson = {
-        type: 'FeatureCollection',
-        features: all.map(p => ({
-          type: 'Feature',
-          properties: Object.assign({ amenity: 'drinking_water' },
-            p.name ? { name: p.name } : {},
-            p.drinking ? { drinking_water: p.drinking } : {}),
-          geometry: { type: 'Point', coordinates: [p.lon, p.lat] }
-        }))
-      };
-      const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/geo+json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = DATA_FILE;
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      status.textContent = `ESPORTATO ${DATA_FILE} (${all.length} PUNTI). SOSTITUISCI QUELLO NEL REPO PER PUBBLICARLI.`;
-    });
 
     $('locate').addEventListener('click', () => {
       if (!navigator.geolocation) {
@@ -292,7 +202,7 @@
     });
 
     window.addEventListener('load', () => map.invalidateSize());
-    loadFile();
+    loadPoints();
   })();
   </script>
 </body>
