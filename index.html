@@ -17,9 +17,9 @@
       flex-direction:column; overflow:hidden; }
     header { flex:0 0 auto; display:flex; justify-content:space-between; align-items:center;
       gap:16px; flex-wrap:wrap; padding:18px 22px 14px; }
-    .brand { color:#fff; font-size:clamp(22px,4vw,32px); line-height:1;
-      font-weight:950; letter-spacing:1.5px; }
-    .tagline { margin-top:7px; color:var(--yellow); font-size:11px;
+    .brand { margin:0; line-height:0; }
+    .brand img { display:block; height:72px; width:auto; max-width:100%; }
+    .tagline { margin-top:9px; color:#fff; font-size:11px;
       font-weight:800; letter-spacing:2.5px; }
     .actions { display:flex; gap:9px; flex-wrap:wrap; }
     button { border:0; border-radius:3px; padding:12px 15px; background:var(--yellow);
@@ -31,19 +31,17 @@
     footer { flex:0 0 auto; display:flex; justify-content:space-between; gap:10px;
       flex-wrap:wrap; padding:10px 22px; color:#aaa; font-size:11px; }
     footer a { color:#ddd; }
-    .pin { width:30px; height:30px; display:flex; align-items:center; justify-content:center;
-      border:2px solid #111; border-radius:50%; background:var(--yellow);
-      box-shadow:0 2px 8px #0008; }
-    .pin-wrap { background:transparent; border:0; }
+    .leaflet-marker-icon.water-pin { filter:drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
     .leaflet-popup-content-wrapper { border-radius:4px; }
     .popup { color:#151515; min-width:165px; line-height:1.4; }
     .popup strong { font-size:14px; }
     .popup small { display:block; margin-top:5px; color:#555; }
     .popup a { color:#111; font-weight:bold; }
     @media(max-width:600px) {
-      header { padding:14px 14px 11px; gap:12px; }
-      .brand { font-size:22px; }
-      .tagline { font-size:9px; letter-spacing:2px; }
+      header { padding:14px 14px 11px; gap:12px; justify-content:center; text-align:center; }
+      header > div:first-child { width:100%; }
+      .brand img { height:58px; margin:0 auto; }
+      .tagline { font-size:9px; letter-spacing:2px; padding-left:2px; }
       .actions { width:100%; }
       .actions button { flex:1; padding:11px 9px; font-size:11px; }
       .status, footer { padding-left:14px; padding-right:14px; }
@@ -55,7 +53,7 @@
   <main class="shell">
     <header>
       <div>
-        <div class="brand">RUNCORE | WATER MAP</div>
+        <h1 class="brand"><img src="logo-runcore-testata.png" width="604" height="170" alt="RUNCORE — Water Map"></h1>
         <div class="tagline">FIND WATER. KEEP RUNNING.</div>
       </div>
       <div class="actions">
@@ -90,12 +88,11 @@
 
     const pointsLayer = L.layerGroup().addTo(map);
 
-    const drop = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#1e88e5" stroke="#111" stroke-width="1.5">' +
-      '<path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg>';
-    const icon = L.divIcon({
-      className: 'pin-wrap',
-      html: `<span class="pin" aria-hidden="true">${drop}</span>`,
-      iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -13]
+    const FOUNTAIN_SVG = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 800"><circle cx="400" cy="400" r="395"/><g><circle cx="445.92" cy="198.02" r="77.32" fill="#fff48d"/><path d="M496.53,336.58l-56.41-8.35s-66.57-79.21-69.21-82.28c-4.31-4.65-9.3-8.81-14.97-12.28-33.38-20.46-77.02-9.99-97.48,23.38l-76.62,124.97c-19.74,32.19-10.69,73.93,19.93,95.21v176.11c0,22.37,18.13,40.51,40.51,40.51s40.51-18.13,40.51-40.51v-176.12c7.8-5.43,14.64-12.49,19.93-21.1l69.87-113.96,28.36,33.91c4.78,5.71,11.49,9.47,18.86,10.56l67.85,10.05c1.51.22,3.01.33,4.49.33,14.81,0,27.78-10.85,30.02-25.93,2.46-16.6-9-32.04-25.6-34.5Z" fill="#fff48d"/><path d="M643.78,303.17h-73.23c-.75-1.26-2.18-2.05-3.72-1.91-1.3.12-2.39.87-3.01,1.91h-64.51c-4.38,0-8.27,2.82-9.63,6.99s.12,8.74,3.66,11.32l111.18,81.05c1.73,1.26,3.82,1.94,5.96,1.94h33.3c5.59,0,10.13-4.53,10.13-10.13v-81.04c0-5.59-4.53-10.13-10.13-10.13Z" fill="#fff48d"/><path d="M516.55,255.11c-2.17,0-3.93,1.76-3.93,3.93s1.76,3.93,3.93,3.93c1.44,0,2.91.07,4.35.2.12.01.24.02.36.02,2.01,0,3.72-1.53,3.9-3.57.2-2.16-1.39-4.07-3.55-4.27-1.68-.15-3.39-.23-5.07-.23Z" fill="#fff48d"/><path d="M552.28,279.45c.78.91,1.88,1.38,2.99,1.38.9,0,1.81-.31,2.55-.94,1.65-1.41,1.85-3.89.44-5.54-1.89-2.22-3.97-4.29-6.18-6.18-1.65-1.41-4.13-1.21-5.54.44-1.41,1.65-1.21,4.13.44,5.54,1.9,1.62,3.68,3.4,5.3,5.3Z" fill="#fff48d"/><path d="M558.2,288.24c1.15,2.21,2.13,4.53,2.91,6.89.55,1.65,2.08,2.7,3.73,2.7.41,0,.82-.06,1.23-.2,2.06-.68,3.18-2.9,2.5-4.96-.91-2.76-2.06-5.47-3.4-8.05-1-1.92-3.37-2.67-5.3-1.67-1.92,1-2.67,3.37-1.67,5.3Z" fill="#fff48d"/><path d="M531.29,265.32c2.36.78,4.69,1.76,6.9,2.91.58.3,1.2.44,1.81.44,1.42,0,2.78-.77,3.49-2.11,1-1.92.25-4.3-1.67-5.3-2.59-1.35-5.3-2.49-8.06-3.4-2.06-.68-4.28.44-4.96,2.5-.68,2.06.44,4.28,2.5,4.96Z" fill="#fff48d"/></g></svg>';
+    const icon = L.icon({
+      iconUrl: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(FOUNTAIN_SVG),
+      className: 'water-pin',
+      iconSize: [38, 38], iconAnchor: [19, 19], popupAnchor: [0, -17]
     });
 
     function escapeHtml(value) {
@@ -167,7 +164,7 @@
         const points = parseGeoJSON(await res.json());
         pointsLayer.clearLayers();
         for (const pt of points) {
-          L.marker([pt.lat, pt.lon], { icon, title: pt.p.name || 'Fontanella' })
+          L.marker([pt.lat, pt.lon], { icon, title: pt.p.name || 'Fontanella', alt: pt.p.name || 'Fontanella' })
             .bindPopup(popupHtml(pt)).addTo(pointsLayer);
         }
         if (points.length) {
